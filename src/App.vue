@@ -32,14 +32,16 @@
     flat
     tile
   >
-    <v-toolbar dark color="blue">
+    <v-toolbar dark color="primary" class="elevation-5">
       <v-app-bar-nav-icon 
       @click="drawer = !drawer"
       class="hidden-md-and-up"
       >
       </v-app-bar-nav-icon>
 
-      <v-toolbar-title>App</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" tag="sapn" class="pointer">Ad aplication</router-link>
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
@@ -100,3 +102,9 @@ export default {
   }
 
 </script>
+
+<style scoped>
+  .pointer {
+    cursor: pointer;
+  }
+</style>
