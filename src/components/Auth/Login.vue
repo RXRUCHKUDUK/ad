@@ -30,7 +30,7 @@
 
                   <v-text-field prepend-icon="mdi-account" name="email" label="E-mail" type="email"
                   v-model="email" :rules="emailRules"></v-text-field>
-                  <v-text-field id="password" prepend-icon="mdi-lock" name="password" label="Password" type="password" v-model="password" :counter="10" :rules="passwordRules"></v-text-field>
+                  <v-text-field id="password" prepend-icon="mdi-lock" name="password" label="Password" type="password" v-model="password" :counter="20" :rules="passwordRules"></v-text-field>
 
                 </v-form>
               </v-card-text>

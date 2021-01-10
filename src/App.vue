@@ -3,27 +3,33 @@
   <v-navigation-drawer 
   app 
   v-model="drawer"
-  temporary
-  absolute>
-    <!-- -->
-
-      <v-list-item @click="drawer = !drawer" class="text-accent-4">
+  clipped>
+    <!--header-->
+      <v-list-item @click="drawer = !drawer" class="font-weight-medium">
         <v-list-item-icon>
           <v-icon>mdi-text</v-icon>
         </v-list-item-icon>
         <v-list-item-title>App</v-list-item-title>
       </v-list-item>
-      
-      <v-btn text flat
-      v-for="link of links"
+
+      <v-list>
+          <v-list-item
+            v-for="link of links"
       :key="link.title"
       :to="link.url"
-      >
-        <v-icon left>
-          {{ link.icon }}
-        </v-icon>
-        {{ link.title }}
-      </v-btn>
+          >
+            <v-list-item-action>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title
+              class="font-weight-medium"              
+              >
+                {{ link.title }}
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+      </v-list>
   </v-navigation-drawer>
 <!--Nav drawer-->
 
@@ -45,7 +51,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-toolbar-items dark color="blue" class="hidden-sm-and-down">
+      <v-toolbar-items wrap dark color="blue" class="hidden-sm-and-down">
       <v-btn text flat
       v-for="link of links"
       :key="link.title"
