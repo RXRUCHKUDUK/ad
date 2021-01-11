@@ -15,8 +15,8 @@
       <v-list>
           <v-list-item
             v-for="link of links"
-      :key="link.title"
-      :to="link.url"
+            :key="link.title"
+            :to="link.url"
           >
             <v-list-item-action>
               <v-icon>{{ link.icon }}</v-icon>
@@ -104,8 +104,8 @@ export default {
       ]
     }
   }
- 
-  }
+  
+}
 
 </script>
 
