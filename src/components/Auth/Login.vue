@@ -36,7 +36,7 @@
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="primary" @click="onSubmit" :disabled="!valid">Login</v-btn>
+                <v-btn color="primary" @click="onSubmit" :disabled="!valid || loading">Login</v-btn>
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -63,6 +63,11 @@
             ]
         }
     },
+    computed: {
+      loading () {
+        return this.$store.getters.loading
+      }
+    },
     mehtods: {
         onSubmit () {
             if (this.$refs.form.validate()) {
@@ -70,10 +75,18 @@
                     email: this.email,
                     password: this.password
                 }
-
-                console.log(user)
+                this.$store.dispatch('loginUser', user)
+                  .then(() => {
+                    this.$router.push('/')
+                  })
+                  .catch(() => {})
             }
         }
+    },
+    created () {
+      if (this.$route.query['loginError']) {
+        this.$store.dispatch('setError', 'Please log in to access this page.')
+      }
     }
   }
 </script>

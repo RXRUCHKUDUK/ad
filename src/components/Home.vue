@@ -1,10 +1,11 @@
-<template><div>
+<template>
+  <div v-if="!loading">
   <v-container fluid>
       <v-layout row>
           <v-flex xs12>
               <v-carousel>
                   <v-carousel-item
-                  v-for="ad in ads"
+                  v-for="ad in promoAds"
                   :key="ad.id"
                   :src="ad.imageSrc"
                   >
@@ -62,47 +63,40 @@
                     Open
                 </v-btn>
 
-                <v-btn
-                    raised
-                    color="primary"
-                >
-                    Buy
-                </v-btn>
+                <app-buy-modal :ad="ad"></app-buy-modal>
                 </v-card-actions>
             </v-card>
           </v-flex>
       </v-layout>
   </v-container>
   </div>
+  <div v-else>
+      <v-container>
+          <v-layout row>
+              <v-flex xs12 class="text-xs-center pt-8">
+                  <v-progress-circular
+                  indeterminate
+                  :size="100"
+                  :width="4"
+                  color="purple"
+                  ></v-progress-circular>
+              </v-flex>
+          </v-layout>
+      </v-container>
+  </div>
 </template>
 
 <script>
 export default {
-    data () {
-        return {
-            ads: [
-                {
-                    title: 'First ad',
-                    description: 'Hello I am description',
-                    promo: false,
-                    imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-                    id: '123'
-                },
-                {
-                    title: 'Second ad',
-                    description: 'Hello I am description',
-                    promo: true,
-                    imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-                    id: '1234'
-                },
-                {
-                    title: 'Third ad',
-                    description: 'Hello I am description',
-                    promo: true,
-                    imageSrc: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-                    id: '12345'
-                }
-            ]
+    computed: {
+        promoAds () {
+            return this.$store.getters.promoAds
+        },
+        ads () {
+            return this.$store.getters.ads
+        },
+        loading () {
+            return this.$store.getters.loading
         }
     }
 }

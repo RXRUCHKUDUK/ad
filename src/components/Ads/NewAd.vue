@@ -28,22 +28,29 @@
                   </v-text-field>
                 </v-form>
 
-                <v-layout row class="mb-3">
+                <v-layout row ml-2>
                     <v-flex xs12>
-                        <v-btn class="warning">
+                        <v-btn 
+                        class="warning" @click="triggerUpload">
                             Upload
                             <v-icon right dark>mdi-upload</v-icon>
                         </v-btn>
+                        <input 
+                        ref="fileInput" 
+                        type="text" 
+                        style="display: none;" 
+                        accept="image/**"
+                        @change="onFileChange">
                     </v-flex>
                 </v-layout>
 
-                <v-layout row>
+                <v-layout row ml-2>
                     <v-flex xs12>
-                        <img src="" height="100" alt="">
+                        <img :src="imageSrc" height="100" v-if="imageSrc">
                     </v-flex>
                 </v-layout>
                 
-                <v-layout row>
+                <v-layout row ml-2>
                     <v-flex xs12>
                         <v-switch
                         label="Ad to promo?"
@@ -53,13 +60,14 @@
                     </v-flex>
                 </v-layout>
 
-                <v-layout row>
+                <v-layout row ml-2>
                     <v-flex xs12>
                         <v-spacer>
 
                         </v-spacer>
                         <v-btn
-                        :disabled="!valid"
+                        :loading="loading"
+                        :disabled="!valid || !image || loading"
                         class="success"
                         @click="createAd"
                         >
@@ -79,21 +87,46 @@ export default {
             title: '',
             description: '',
             promo: false,
-            valid: false
+            valid: false,
+            image: null,
+            imageSrc: ''
+        }
+    },
+    computed: {
+        loading () {
+            return this.$store.getters.loading
         }
     },
     methods: {
         createAd () {
-            if (this.$refs.form.validate()) {
+            if (this.$refs.form.validate() && this.image) {
                 //logic
                 const ad = {
                     title: this.title,
                     description: this.description,
-                    promo: this.promo
+                    promo: this.promo,
+                    image: this.image
                 }
 
-                console.log(ad)
+                this.$store.dispatch('createAd', ad)
+                .then(() => {
+                    this.$route.push('/list')
+                })
+                .catch(() => {})
             }  
+        },
+        triggerUpload () {
+            this.$refs.fileInput.click()
+        },  
+        onFlieChange (event) {
+            const file = event.target.files[0]
+
+            const reader = new FileReader()
+            reader.onload = e => {
+                this.imageSrc = reader.result
+            }
+            reader.reader.readAsDataURL(file)
+            this.image = file
         }
     }
 }

@@ -66,8 +66,9 @@
                 <v-spacer></v-spacer>
                 <v-btn 
                 color="primary" 
+                :loading="loading"
                 @click="onSubmit" 
-                :disabled="!valid"
+                :disabled="!valid || loading"
                 >Create Account!
                 </v-btn>
               </v-card-actions>
@@ -101,6 +102,11 @@
             ]
         }
     },
+    computed: {
+      loading () {
+        return this.$store.getters.loading
+      }
+    },
     mehtods: {
         onSubmit () {
             if (this.$refs.form.validate()) {
@@ -109,7 +115,11 @@
                     password: this.password
                 }
 
-                console.log(user)
+                this.$store.dispatch('registerUser', user)
+                  .then(() => {
+                    this.$router.push('/')
+                  })
+                  .catch(() => {})
             }
         }
     }
